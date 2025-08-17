@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
@@ -8,6 +9,7 @@ import Footer from '@/components/Footer';
 import { Product } from '@/components/ProductCard';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -76,12 +78,8 @@ const Index = () => {
   };
 
   const handleProceedToCheckout = () => {
-    toast({
-      title: "Checkout",
-      description: "Redirecting to secure checkout...",
-    });
-    // In a real app, this would integrate with Stripe or another payment processor
     setIsCartOpen(false);
+    navigate('/checkout', { state: { cartItems } });
   };
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
